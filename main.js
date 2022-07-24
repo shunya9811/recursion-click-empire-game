@@ -42,20 +42,20 @@ class View{
             <h4 class="pb-3">Let's aim to be a billionaire!</h4>
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="userName" aria-describedby="emailHelp"
+                    <input type="text" class="form-control" id="userName"
                         placeholder="Enter your name">
                 </div>
-                <div class="form-group ">
-                    <input type="number" class="form-control" id="userAge" aria-describedby="emailHelp"
+                <div class="form-group">
+                    <input type="number" class="form-control" id="userAge"
                         placeholder="Enter your age" value="20" min="0">
                 </div>
 
                 <div class="d-flex justify-content-between">
                     <div class="col-6 pl-0">
-                        <button type="submit" id="newGame" class="btn btn-primary col-12">New</button>
+                        <button type="submit" class="btn btn-primary col-12" id="newGame">New</button>
                     </div>
                     <div class="col-6 pr-0">
-                        <button type="submit" id="login" class="btn btn-outline-primary col-12">Login</button>
+                        <button type="submit" class="btn btn-outline-primary col-12" id="login">Login</button>
                     </div>
                 </div>
             </form>
@@ -76,6 +76,7 @@ class View{
                 <div class= "col-8">
                     <div class= "p-1 bg-navy" id="userInfo">  
                     </div>
+                    
                     <div class="bg-dark mt-2 p-1 overflow-auto flowHeight" id="displayItems">
                     </div>
                     
@@ -105,7 +106,7 @@ class View{
             Controller.saveUserDate(user);
             Controller.stoptimer();
             Controller.initializePage();            
-        })
+        });
 
         return container;
     }
@@ -119,7 +120,7 @@ class View{
             <p>one click ￥${user.incomePerClick} </p>
         </div>
         <div class="p-2 pt-5 d-flex justify-content-center">
-            <img src="https://cdn.pixabay.com/photo/2014/04/02/17/00/burger-307648_960_720.png" width=80% class="py-2 hover img-fuid" id="burger">
+            <img src="./images/burger.png" width=80% class="py-2 hover img-fuid" id="burger">
         </div>    
         `
         let burgerClick = container.querySelectorAll("#burger")[0];
@@ -150,7 +151,6 @@ class View{
         `
         return container;
     }
-
 
     static createItemPage(user){
         let container = document.createElement("div");
@@ -268,7 +268,7 @@ class Controller{
         
         let newGameBtn = config.initialPage.querySelectorAll("#newGame")[0];            
         newGameBtn.addEventListener("click", function(){
-            let userName = config.initialPage.querySelectorAll("#userName")[0];
+            let userName = config.initialPage.querySelectorAll("#userName")[0].value;
             if(userName == ""){
                 alert("Please put your name");
             } else{
@@ -293,27 +293,27 @@ class Controller{
     static moveInitialToMain(user){
         config.initialPage.classList.add("d-none");
         config.mainPage.append(View.createMainPage(user));
-        Controller.startTimer(user);
+        //Controller.startTimer(user);
     }
 
     static createInitialUserAccount(userName){
         let itemsList = [
-            new Items("Flip machine", "ability", 0, 500, 25, 0, 15000, "https://cdn.pixabay.com/photo/2019/06/30/20/09/grill-4308709_960_720.png"),
-            new Items("ETF Stock", "investment", 0, -1, 0, 0.1, 300000, "https://cdn.pixabay.com/photo/2016/03/31/20/51/chart-1296049_960_720.png"),
-            new Items("ETF Bonds", "investment", 0, -1, 0, 0.07, 300000, "https://cdn.pixabay.com/photo/2016/03/31/20/51/chart-1296049_960_720.png"),
-            new Items("Lemonade Stand", "realState", 0, 1000, 30, 0, 30000, "https://cdn.pixabay.com/photo/2012/04/15/20/36/juice-35236_960_720.png"),
-            new Items("Ice Cream Truck", "realState", 0, 500, 120, 0, 100000, "https://cdn.pixabay.com/photo/2020/01/30/12/37/ice-cream-4805333_960_720.png"),
-            new Items("House", "realState", 0, 100, 32000, 0, 20000000, "https://cdn.pixabay.com/photo/2016/03/31/18/42/home-1294564_960_720.png"),
-            new Items("TownHouse", "realState", 0, 100, 64000, 0, 40000000, "https://cdn.pixabay.com/photo/2019/06/15/22/30/modern-house-4276598_960_720.png"),
-            new Items("Mansion", "realState", 0, 20, 500000, 0, 250000000, "https://cdn.pixabay.com/photo/2017/10/30/20/52/condominium-2903520_960_720.png"),
-            new Items("Industrial Space", "realState", 0, 10, 2200000, 0, 1000000000, "https://cdn.pixabay.com/photo/2012/05/07/17/35/factory-48781_960_720.png"),
-            new Items("Hotel Skyscraper", "realState", 0, 5, 25000000, 0, 10000000000, "https://cdn.pixabay.com/photo/2012/05/07/18/03/skyscrapers-48853_960_720.png"),
-            new Items("Bullet-Speed Sky Railway", "realState", 0, 1, 30000000000, 0, 10000000000000, "https://cdn.pixabay.com/photo/2013/07/13/10/21/train-157027_960_720.png")   
+            new Items("Flip machine", "ability", 0, 500, 25, 0, 15000, "./images/filpmachine.png"),
+            new Items("ETF Stock", "investment", 0, -1, 0, 0.1, 300000, "./images/etfstock.png"),
+            new Items("ETF Bonds", "investment", 0, -1, 0, 0.07, 300000, "./images/etfstock.png"),
+            new Items("Lemonade Stand", "realState", 0, 1000, 30, 0, 30000, "./images/etfstock.png"),
+            new Items("Ice Cream Truck", "realState", 0, 500, 120, 0, 100000, "./images/lemonade.png"),
+            new Items("House", "realState", 0, 100, 32000, 0, 20000000, "./images/house.png"),
+            new Items("TownHouse", "realState", 0, 100, 64000, 0, 40000000, "./images/townhouse.png"),
+            new Items("Mansion", "realState", 0, 20, 500000, 0, 250000000, "./images/mansion.png"),
+            new Items("Industrial Space", "realState", 0, 10, 2200000, 0, 1000000000, "./images/industrial.png"),
+            new Items("Hotel Skyscraper", "realState", 0, 5, 25000000, 0, 10000000000, "./images/hotel.png"),
+            new Items("Bullet-Speed Sky Railway", "realState", 0, 1, 30000000000, 0, 10000000000000, "./images/railway.png")   
         ]
 
-        let userAge = config.initialPage.querySelectorAll("#userAge")[0].value;
-        if(userName=="cheater") return new User(userName, userAge, 0, Math.pow(10,9), itemsList)
-        return new User(userName, userAge, 0, 50000, itemsList);
+        //let userAge = config.initialPage.querySelectorAll("#userAge")[0].value;
+        if(userName=="cheater") return new User(userName, 20, 0, Math.pow(10,9), itemsList)
+        return new User(userName, 20, 0, 50000, itemsList);
     }
 
     static startTimer(user){
@@ -402,7 +402,6 @@ class Controller{
         localStorage.setItem(user.name, JSON.stringify(user));
         alert("Saved your data. Please put the same name when you login.");
     }
-
 
     static getUserData(userName){
         return JSON.parse(localStorage.getItem(userName));
