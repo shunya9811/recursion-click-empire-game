@@ -69,8 +69,8 @@ class View{
         let container = document.createElement("div");
         container.innerHTML =
         `
-        <div class="d-flex justify-content-center p-md-5 pb-5" style='height:100vh;'>
-            <div class="bg-navy p-2 d-flex col-md-11 col-lg-10">
+        <div class="d-flex justify-content-center p-md-3" style='height:100vh;'>
+            <div class="bg-navy p-2 d-flex col-md-11 col-lg-10 vh-98">
                 <div class="bg-dark p-2 col-4" id="burgerStatus">
                 </div>
                 <div class= "col-8">
@@ -202,7 +202,7 @@ class View{
                     </div>
                 </div>
                 <p>How many would you like to buy?</p>
-                <input type="number" placeholder="0" class="col-12 form-control">
+                <input type="number" placeholder="0" class="col-12 form-control" min="0">
                 <p class="text-right" id="totalPrice">total: ￥0</p>
                 <div class="d-flex justify-content-between pb-3">
                     <button class="btn btn-outline-primary col-5 bg-light" id="back">Go Back</buttone>
@@ -248,7 +248,7 @@ class View{
         config.mainPage.append(View.createMainPage(user));
     }
 
-    static updateBugurPage(user){
+    static updateBurgerPage(user){
         let burgerStatus = config.mainPage.querySelectorAll("#burgerStatus")[0];
         burgerStatus.innerHTML = '';
         burgerStatus.append(View.createBurgerStatus(user));
@@ -268,7 +268,7 @@ class Controller{
         
         let newGameBtn = config.initialPage.querySelectorAll("#newGame")[0];            
         newGameBtn.addEventListener("click", function(){
-            let userName = config.initialPage.querySelectorAll("#userName")[0].value;
+            let userName = config.initialPage.querySelectorAll("input")[0].value;
             if(userName == ""){
                 alert("Please put your name");
             } else{
@@ -293,7 +293,7 @@ class Controller{
     static moveInitialToMain(user){
         config.initialPage.classList.add("d-none");
         config.mainPage.append(View.createMainPage(user));
-        //Controller.startTimer(user);
+        Controller.startTimer(user);
     }
 
     static createInitialUserAccount(userName){
@@ -301,8 +301,8 @@ class Controller{
             new Items("Flip machine", "ability", 0, 500, 25, 0, 15000, "./images/filpmachine.png"),
             new Items("ETF Stock", "investment", 0, -1, 0, 0.1, 300000, "./images/etfstock.png"),
             new Items("ETF Bonds", "investment", 0, -1, 0, 0.07, 300000, "./images/etfstock.png"),
-            new Items("Lemonade Stand", "realState", 0, 1000, 30, 0, 30000, "./images/etfstock.png"),
-            new Items("Ice Cream Truck", "realState", 0, 500, 120, 0, 100000, "./images/lemonade.png"),
+            new Items("Lemonade Stand", "realState", 0, 1000, 30, 0, 30000, "./images/lemonade.png"),
+            new Items("Ice Cream Truck", "realState", 0, 500, 120, 0, 100000, "./images/icecream.png"),
             new Items("House", "realState", 0, 100, 32000, 0, 20000000, "./images/house.png"),
             new Items("TownHouse", "realState", 0, 100, 64000, 0, 40000000, "./images/townhouse.png"),
             new Items("Mansion", "realState", 0, 20, 500000, 0, 250000000, "./images/mansion.png"),
@@ -311,9 +311,9 @@ class Controller{
             new Items("Bullet-Speed Sky Railway", "realState", 0, 1, 30000000000, 0, 10000000000000, "./images/railway.png")   
         ]
 
-        //let userAge = config.initialPage.querySelectorAll("#userAge")[0].value;
-        if(userName=="cheater") return new User(userName, 20, 0, Math.pow(10,9), itemsList)
-        return new User(userName, 20, 0, 50000, itemsList);
+        let userAge = config.initialPage.querySelectorAll("#userAge")[0].value;
+        if(userName=="cheater") return new User(userName, userAge, 0, Math.pow(10,9), itemsList)
+        return new User(userName, userAge, 0, 50000, itemsList);
     }
 
     static startTimer(user){
@@ -357,8 +357,9 @@ class Controller{
     static updateByClickBurger(user){
         user.clickCount++;
         user.money += user.incomePerClick;
-        View.updateBugurPage(user);
+        View.updateBurgerPage(user);
         View.updateUserInfo(user);
+        if (user.clickCount == 10) View.changeBigBurger();
     }
 
     static getTotalPrice(item, count){
@@ -409,7 +410,7 @@ class Controller{
 
     static initializePage(){
         config.initialPage.classList.remove("d-none");
-        config.initialPage.innerHTML = '';
+        //  config.initialPage.innerHTML = '';
         config.mainPage.innerHTML = '';
         Controller.startGame();
     }
