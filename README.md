@@ -1,2 +1,2 @@
-https://shunya9811.github.io/recursion-click-empire-game/
+https://shunya9811.github.io/recursion-click-empire-game
 
