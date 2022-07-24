@@ -1,1 +1,2 @@
-https://shunya9811.github.io/recursion-click-empire-game/index.html
+https://shunya9811.github.io/recursion-click-empire-game/
+
