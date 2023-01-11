@@ -14,6 +14,7 @@ class User{
         this.incomePerSec = 0;
         this.stock = 0;
         this.items = items
+        this.timer = null;
     }
 }
 
@@ -71,8 +72,10 @@ class View{
         `
         <div class="d-flex justify-content-center p-md-3" style='height:100vh;'>
             <div class="bg-navy p-2 d-flex col-md-11 col-lg-10 vh-98">
+                
                 <div class="bg-dark p-2 col-4" id="burgerStatus">
                 </div>
+
                 <div class= "col-8">
                     <div class= "p-1 bg-navy" id="userInfo">  
                     </div>
@@ -103,14 +106,15 @@ class View{
 
         let saveBtn = container.querySelectorAll("#save")[0];
         saveBtn.addEventListener("click", function(){
-            Controller.saveUserDate(user);
-            Controller.stoptimer();
+            Controller.saveUserData(user);
+            Controller.stoptimer(user);
             Controller.initializePage();            
         });
 
         return container;
     }
 
+    // コンポーネントクリエイト
     static createBurgerStatus(user){
         let container = document.createElement("div");
         container.innerHTML =
@@ -262,13 +266,14 @@ class View{
 }
 
 class Controller{
-    timer;
+    // timerを共有していてはだめ
+    // timer;
 
     static startGame(){
         
         let newGameBtn = config.initialPage.querySelectorAll("#newGame")[0];            
         newGameBtn.addEventListener("click", function(){
-            let userName = config.initialPage.querySelectorAll("input")[0].value;
+            let userName = config.initialPage.querySelectorAll("#userName")[0].value;
             if(userName == ""){
                 alert("Please put your name");
             } else{
@@ -284,6 +289,7 @@ class Controller{
                 alert("Please put your name");
             } else{
                 let user = Controller.getUserData(userName);
+                
                 if(user == null) alert("There is no data.");
                 else Controller.moveInitialToMain(user);
             }            
@@ -292,6 +298,7 @@ class Controller{
 
     static moveInitialToMain(user){
         config.initialPage.classList.add("d-none");
+        config.mainPage.innerHTML = "";
         config.mainPage.append(View.createMainPage(user));
         Controller.startTimer(user);
     }
@@ -317,7 +324,7 @@ class Controller{
     }
 
     static startTimer(user){
-        Controller.timer = setInterval(function(){
+        user.timer = setInterval(function(){
             user.days++;
             user.money += user.incomePerSec;
             if(user.days % 365 == 0){
@@ -326,11 +333,11 @@ class Controller{
             } else{
                 View.updateUserInfo(user);
             }
-        },1000);
+        }, 1000);
     }
 
-    static stoptimer(){
-        clearInterval(Controller.timer);
+    static stoptimer(user){
+        clearInterval(user.timer);
     }
 
     static purchaseItems(user, index, count){
@@ -392,14 +399,14 @@ class Controller{
     static resetAllData(user){
         if(window.confirm("Reset All Data?")){
             let userName = user.name;
+            Controller.stoptimer(user);
             user = Controller.createInitialUserAccount(userName);
-            Controller.stoptimer();
             View.updateMainPage(user);
             Controller.startTimer(user);
         }
     }
 
-    static saveUserDate(user){
+    static saveUserData(user){
         localStorage.setItem(user.name, JSON.stringify(user));
         alert("Saved your data. Please put the same name when you login.");
     }
@@ -412,9 +419,9 @@ class Controller{
         config.initialPage.classList.remove("d-none");
         //  config.initialPage.innerHTML = '';
         config.mainPage.innerHTML = '';
-        Controller.startGame();
     }
 
 }
 
+localStorage.clear();
 Controller.startGame();
